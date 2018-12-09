@@ -813,12 +813,13 @@ def tools_migrations_list(pending=False, done=False):
             migrations = [m for m in migrations if m.number > last_migration]
 
     # Reduce to dictionnaries
-    migrations = [{"id": migration.id,
-                   "number": migration.number,
-                   "name": migration.name,
-                   "mode": migration.mode,
-                   "description": migration.description,
-                   "disclaimer": migration.disclaimer} for migration in migrations]
+    migrations = [{ "id": migration.id,
+                    "number": migration.number,
+                    "name": migration.name,
+                    "mode": migration.mode,
+                    "description": migration.description,
+                    "disclaimer": migration.disclaimer,
+                    "required": migration.required } for migration in migrations ]
 
     return {"migrations": migrations}
 
@@ -1091,6 +1092,7 @@ class Migration(object):
     # Those are to be implemented by daughter classes
 
     mode = "auto"
+    required = False
 
     def forward(self):
         raise NotImplementedError()
